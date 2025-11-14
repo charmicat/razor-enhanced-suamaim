@@ -1,0 +1,67 @@
+#  !!!!!!!!!!!!!!!!! UPDATER YOUR RUNE NAME, CTRL+H replace 
+#  !!!!!!!!!!!!!!!!! DoS with whatever your escape Rune is named
+
+# Modified by Chumber
+# Based on https://outlands.uorazorscripts.com/script/fb2d9f3c-0f8a-4de6-b8f3-f5c07b790d8c
+# Expanded with the runetome and swapped the order (runebook before chiv)
+# Added all follow me if you got followers
+# Recall runetome target added, runetome|runebook|rune put into one if
+# Also added a var you can set in other scripts to deactivate the escape...
+# 2025-06-06    Updated with [recall and [recallCharge
+#               Reduced Moongate range check so it wont prevent recalling anymore
+
+
+if varexist 'dontFlee' and 'dontFlee' = 1
+    overhead "Disabled by dontFlee"
+    stop
+endif
+    
+hotkey "Cancel Current target"
+hotkey '> Interrupt'
+if followers > 0
+    say "all follow me"
+endif
+
+# Moongate
+if findtype "blue moongate" ground 0 1 2 as mGate
+    while not gumpexists 3899019871
+        dclick mGate
+    endwhile
+    if gumpexists 3899019871
+        gumpresponse 2 3899019871
+        stop
+    endif
+# Dungeon Gate
+elseif findtype "blue moongate" ground -1 1 4 as mGate
+    while not gumpexists 3773199800
+        dclick mGate
+    endwhile
+    if gumpexists 3773199800
+        wait 200
+        gumpresponse 2 3773199800
+        stop
+    endif
+elseif skill "Magery" >= 60 and mana > 11
+    whisper "[recall DoS"
+    stop
+elseif skill "Chivalry" > 95 and not findtype "blue moongate" ground 0 1 8
+    overhead 'Chivescape!'
+    if not gumpexists 1482653814
+        say '[SacredJourney'
+    elseif gumpexists 1482653814
+        gumpresponse 1
+    endif
+    if findtype 30528 ground 2091 1 2 as mgate
+        dclick mgate
+    endif
+    if gumpexists 3773199800
+        wait 200
+        gumpresponse 2
+        stop
+    endif
+else
+    whisper "[recallCharge DoS"
+    stop
+endif
+wait 250
+loop

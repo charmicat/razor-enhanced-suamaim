@@ -12,7 +12,8 @@ import sys
 #      includes boards, luminescent fungi, switch, parasiteic plant, and bark fragment
 #
 OldServer = True
-HatchetID = 0x0F43
+# HatchetID = 0x0F43
+HatchetID = 0x48B2 # Gargish Axe
 LogID = 0x1BDD
 WoodID = 0x1BD7
 #

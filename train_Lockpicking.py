@@ -96,6 +96,7 @@ def TrainLockpicking():
             lockpicks = FindItem( lockpickItem.itemID, Player.Backpack )
             if lockpicks == None:
                 Player.HeadMessage( colors[ 'red' ], 'Ran out of lockpicks!' )
+                return
 
         # Wait a little bit so that the while loop doesn't consume as much CPU
         Misc.Pause( 50 )

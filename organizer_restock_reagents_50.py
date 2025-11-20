@@ -1,6 +1,6 @@
 # Adjust to the number of reagents you would like in your reagents bag
 restockTo = 50
-if Player.Name == 'TheWarMage':
+if Player.Name == 'Hobofactual':
     restockTo = 150
     #pass
 # Adjust to whether to not you want to remove reagents from your bag if you have more than the desired amount

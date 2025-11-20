@@ -6,6 +6,8 @@ Last Contribution By: TheWarDoctor95 - April 26, 2019
 Description: Trains Carpentry to its cap
 '''
 
+from AutoComplete import *
+
 from Scripts.glossary.colors import colors
 from Scripts.glossary.crafting.carpentry import FindCarpentryTool, carpentryCraftables
 from Scripts.glossary.items.containers import FindTrashBarrel
@@ -14,7 +16,7 @@ from Scripts.utilities.items import FindItem, FindNumberOfItems, MoveItem
 # Set to serial of bag or 'pet' for the mount that you are on
 # Set to None if you don't want to keep slayers
 slayerBag = 'pet'
-petName = 'Beetlejuice'
+petName = 'Artom'
 
 def FindPet():
     '''

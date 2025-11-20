@@ -5,6 +5,7 @@ Other Contributors: TheWarDoctor95 - converted to Razor Enhanced script
 Last Contribution By: MatsaMilla - 8-28-21
 Description: Tames nearby animals to train Animal Taming to GM
 '''
+from AutoComplete import *
 
 ########## Script options ###############
 Misc.ClearIgnore()

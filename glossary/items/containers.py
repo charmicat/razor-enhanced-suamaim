@@ -1,5 +1,7 @@
 from Scripts.utilities.items import myItem
 from System.Collections.Generic import List
+from System import Byte, Int32
+
 
 containers = {
     'backpack': myItem( 'backpack', 0x0E75, 0x0000, 'container', 1 ),
@@ -11,7 +13,8 @@ containers = {
     'metal chest (north/south)': myItem( 'metal chest', 0x2DF3, 0x0000, 'container', 1 ),
     'ornate elven chest': myItem( 'ornate elven chest', 0x0E79, 0x0000, 'container', 1 ),
     'pouch': myItem( 'pouch', 0x0E79, 0x0000, 'container', 1 ),
-    'trash barrel': myItem( 'trash barrel', 0x0E77, 0x03B2, 'container', 1 ),
+    'trash barrel orig': myItem( 'trash barrel', 0x0E77, 0x03B2, 'container', 1 ),
+    'trash barrel': myItem( 'trash barrel', 0x0E77, 0x0556, 'container', 1 ),
     'wooden box': myItem( 'wooden box', 0x0E7D, 0x0000, 'container', 1 ),
     'wooden chest': myItem( 'wooden chest', 0x0E43, 0x0000, 'container', 1 ),
 }
@@ -29,8 +32,8 @@ def FindTrashBarrel( Items ):
     trashBarrelFilter.Movable = False
     trashBarrelFilter.RangeMax = 0
     trashBarrelFilter.RangeMax = 2
-    trashBarrelFilter.Graphics = List[int]( [ containers[ 'trash barrel' ].itemID ] )
-    trashBarrelFilter.Hues = List[int]( [ containers[ 'trash barrel' ].color ] )
+    trashBarrelFilter.Graphics = List[Int32]( [ containers[ 'trash barrel' ].itemID ] )
+    trashBarrelFilter.Hues = List[Int32]( [ containers[ 'trash barrel' ].color ] )
 
     trashBarrel = Items.ApplyFilter( trashBarrelFilter )
 
@@ -52,7 +55,7 @@ def FindHatch( Items ):
     hatchFilter.Movable = False
     hatchFilter.RangeMax = 0
     hatchFilter.RangeMax = 2
-    hatchFilter.Graphics = List[int]( [ containers[ 'hatch' ].itemID ] )
+    hatchFilter.Graphics = List[Int32]( [ containers[ 'hatch' ].itemID ] )
 
     hatch = Items.ApplyFilter( hatchFilter )
 

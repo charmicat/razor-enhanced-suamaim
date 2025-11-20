@@ -18,7 +18,8 @@ LogID = 0x1BDD
 WoodID = 0x1BD7
 #
 # Used only if your storing in a llama or mule
-MuleID = 0x0317 
+# MuleID = 0x0317 
+MuleID = 0x0123
 MuleColor = 0
 LlamaID = 0x0124
 LlamaColor = 0

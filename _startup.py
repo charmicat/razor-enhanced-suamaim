@@ -8,7 +8,7 @@ if Player.Name == 'TheWarMage':
 elif Player.Name == 'Hobofactual':
     # elif Player.Name == 'TheWarPhysician':
 
-    Misc.SetSharedValue( 'reagentsBag', 0x42BB620D )
+    Misc.SetSharedValue( 'reagentsBag', 0x40D386F6 )
 elif Player.Name == 'Suamaim':
     # elif Player.Name == 'TheWarMapper':
 

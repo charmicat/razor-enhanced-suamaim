@@ -1,3 +1,5 @@
+from AutoComplete import *
+
 # Adjust to the number of reagents you would like in your reagents bag
 restockTo = 50
 if Player.Name == 'Hobofactual':

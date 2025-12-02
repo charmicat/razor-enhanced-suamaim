@@ -2,6 +2,8 @@
 from AutoComplete import *
 import time
 import sys
+from Scripts.glossary.colors import colors
+
 #
 # If you use storage keys, remember to [keyguard your shovels
 ##
@@ -180,12 +182,12 @@ def ScanStaticTrees(start_x, start_y):
     for y in range(start_y, start_y+8+1):
         for x in range(start_x, start_x+8+1):
             tileinfo = Statics.GetStaticsTileInfo(x, y, Player.Map)
-            #print("X:{} Y:{} tilenum: {} map{}".format( 
-            #x, y, tileinfo.Count, Player.Map))
+            # print("X:{} Y:{} tilenum: {} map{}".format( 
+            # x, y, tileinfo.Count, Player.Map))
             if tileinfo.Count > 0:
                 for tile in tileinfo: 
                     if tile.StaticID in TreeStaticID:
-                        #print('--> Tree X: %i - Y: %i - Z: %i' % (x, y, tile.StaticZ), 66)
+                        # print('--> Tree X: %i - Y: %i - Z: %i' % (x, y, tile.StaticZ), 66)
                         tree = Tree(x, y, tile.StaticZ, tile.StaticID)
                         trees.append(tree)
     return trees
@@ -203,6 +205,7 @@ def NearestTree(trees):
 def ChopTree():
     global OldServer, TreeStaticID
     wood_to_chop = True
+    find_new_tree = False
     Journal.Clear() 
     while wood_to_chop:
         axe = FindAxe()
@@ -211,16 +214,26 @@ def ChopTree():
             Target.Cancel
         #    
         if OldServer:
+            print("Scanning for trees...")
             trees = ScanStaticTrees(int(Player.Position.X/8)*8, int(Player.Position.Y/8)*8)
             if len(trees) == 0:
                 print(f"Tree not found")
                 return
             tree = NearestTree(trees)
+            find_new_tree = tree is not None
             route = PathFinding.Route()
             route.X = tree.X - 1
             route.Y = tree.Y - 1
             route.MaxRetry = 5
-            PathFinding.Go(route)
+            PathFinding.Go( route )
+            if not PathFinding.Go( route ):
+                print(f"Cannot pathfind to tree at X:{tree.X} Y:{tree.Y}")
+                # Player.HeadMessage( colors[ 'cyan' ], 'Cannot pathfind to tree, please move within range manually' )
+            else:
+                PathFinding.PathFindTo(route.X, route.Y)
+            tiles = PathFinding.GetPath(tree.X, tree.Y)
+            PathFinding.RunPath(tiles)
+
             Misc.Pause(1000)
             Items.UseItem(axe)
             Target.WaitForTarget(5000, False)
@@ -235,7 +248,8 @@ def ChopTree():
         Misc.Pause(700)
         if Journal.Search("not enough wood here"):
             print("Stopping due to finished")
-            wood_to_chop = False
+            find_new_tree = True
+            # wood_to_chop = False
         if Journal.Search("You put") or Journal.Search("You put"):
             failed_chop_time = time.time() + MaxChopSeconds
         if Journal.Search("no more wood"):

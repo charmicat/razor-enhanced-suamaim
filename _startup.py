@@ -1,5 +1,6 @@
 from AutoComplete import *
 
+Misc.SetSharedValue( 'OldServer', True )
 
 if Player.Name == 'TheWarMage':
     # if Player.Name == 'TheWarMage':

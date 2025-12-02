@@ -6,4 +6,5 @@
     "python.analysis.extraPaths": [
         "../Lib/"
     ],
+    "workbench.colorCustomizations": {},
 }

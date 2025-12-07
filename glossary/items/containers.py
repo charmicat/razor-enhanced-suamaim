@@ -17,6 +17,7 @@ containers = {
     'trash barrel': myItem( 'trash barrel', 0x0E77, 0x0556, 'container', 1 ),
     'wooden box': myItem( 'wooden box', 0x0E7D, 0x0000, 'container', 1 ),
     'wooden chest': myItem( 'wooden chest', 0x0E43, 0x0000, 'container', 1 ),
+    'metal chest (north/south) trash': myItem( 'metal chest', 0x0E40, 0x0000, 'container', None ),
 }
 
 
@@ -38,7 +39,12 @@ def FindTrashBarrel( Items ):
     trashBarrel = Items.ApplyFilter( trashBarrelFilter )
 
     if len( trashBarrel ) == 0:
-        return None
+        # return None
+        trashBarrelFilter.Graphics = List[Int32]( [ containers[ 'metal chest' ].itemID ] )
+        trashBarrelFilter.Hues = List[Int32]( [ containers[ 'metal chest' ].color ] )
+        trashBarrel = Items.ApplyFilter( trashBarrelFilter )
+        if len( trashBarrel ) == 0:
+            return None
     else:
         return trashBarrel[ 0 ]
 

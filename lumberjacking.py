@@ -214,47 +214,81 @@ def ChopTree():
             Target.Cancel
         #    
         if OldServer:
-            print("Scanning for trees...")
+            # print("Scanning for trees...")
             trees = ScanStaticTrees(int(Player.Position.X/8)*8, int(Player.Position.Y/8)*8)
             if len(trees) == 0:
                 print(f"Tree not found")
                 return
             tree = NearestTree(trees)
-            find_new_tree = tree is not None
-            route = PathFinding.Route()
-            route.X = tree.X - 1
-            route.Y = tree.Y - 1
-            route.MaxRetry = 5
-            PathFinding.Go( route )
-            if not PathFinding.Go( route ):
-                print(f"Cannot pathfind to tree at X:{tree.X} Y:{tree.Y}")
-                # Player.HeadMessage( colors[ 'cyan' ], 'Cannot pathfind to tree, please move within range manually' )
-            else:
-                PathFinding.PathFindTo(route.X, route.Y)
-            tiles = PathFinding.GetPath(tree.X, tree.Y)
-            PathFinding.RunPath(tiles)
+            find_new_tree = tree is None
 
-            Misc.Pause(1000)
-            Items.UseItem(axe)
-            Target.WaitForTarget(5000, False)
-            #print("Chop Tree at X:{} Y:{} Z:{} Tile:{}".format(tree.X, tree.Y, tree.Z, tree.ID))
-            if Target.HasTarget():
-                Target.TargetExecute(tree.X, tree.Y, tree.Z, tree.ID)
+            if not find_new_tree:
+                # A good tree was found, try to path to it
+                route = PathFinding.Route()
+                route.X = tree.X - 1
+                route.Y = tree.Y - 1
+                route.MaxRetry = 5
+                PathFinding.Go( route )
+                if not PathFinding.Go( route ):
+                    print(f"Cannot pathfind to tree at X:{tree.X} Y:{tree.Y}")
+                    # Player.HeadMessage( colors[ 'cyan' ], 'Cannot pathfind to tree, please move within range manually' )
+                else:
+                    PathFinding.PathFindTo(route.X, route.Y)
+
+                tiles = PathFinding.GetPath(tree.X, tree.Y, True)
+                PathFinding.RunPath(tiles)
+
+                Misc.Pause(1000)
+                Items.UseItem(axe)
+                Target.WaitForTarget(5000, False)
+                #print("Chop Tree at X:{} Y:{} Z:{} Tile:{}".format(tree.X, tree.Y, tree.Z, tree.ID))
+                if Target.HasTarget():
+                    Target.TargetExecute(tree.X, tree.Y, tree.Z, tree.ID)
+                else:
+                    print(f"Unable to target tree at {Player.Position.X} {Player.Position.Y}")
+                    break
             else:
-                print(f"Unable to target tree at {Player.Position.X} {Player.Position.Y}")
-                break
+                                # Player.Walk("North")
+                Player.Walk("East")
+                Player.Walk("East")
+                Player.Walk("East")
         else:
             Target.TargetResource(axe, "wood")
         Misc.Pause(700)
+
+        if Journal.Search("You chop some"):
+            # print("Stopping due to finished")
+            find_new_tree = False
         if Journal.Search("not enough wood here"):
             print("Stopping due to finished")
+            Player.Walk("East")
+            Player.Walk("East")
+            Player.Walk("East")
+            Player.Walk("East")
+            Player.Walk("East")
+            Player.Walk("East")
+            Player.Walk("East")
+            Player.Walk("East")
+            Player.Walk("East")
+            Player.Walk("East")
+            Player.Walk("East")
             find_new_tree = True
             # wood_to_chop = False
         if Journal.Search("You put") or Journal.Search("You put"):
             failed_chop_time = time.time() + MaxChopSeconds
         if Journal.Search("no more wood"):
             print("Stopping due to Journal")
+            Player.Walk("East")
+            Player.Walk("East")
+            Player.Walk("East")
+            Player.Walk("East")
+            Player.Walk("East")
+            Player.Walk("East")
+            Player.Walk("East")
+            Player.Walk("East")
+            Player.Walk("East")
             wood_to_chop = False
+            find_new_tree = True
         if Player.Weight > Player.MaxWeight * .95:
             ConvertLogsToWood()
             if FindMule():
